@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>OM STORE | ऑनलाइन किराना</title>
+<style>
+:root{--green:#168447;--dark:#0c6333;--pale:#eaf7ef;--text:#173326}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,"Noto Sans Devanagari",sans-serif;background:#f6fbf7;color:var(--text)}
+header{background:linear-gradient(120deg,var(--dark),#24a35a);color:white;padding:22px 16px;text-align:center}
+header h1{margin:0;font-size:30px}header p{margin:8px 0 0}
+.wrap{max-width:950px;margin:auto;padding:16px}
+.notice{background:#fff4d8;border:1px solid #f2d58c;border-radius:12px;padding:12px;margin:14px 0;font-size:14px}
+h2{color:var(--dark);margin:22px 0 12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:12px}
+.card{background:white;border:1px solid #dcece1;border-radius:14px;padding:14px;box-shadow:0 2px 8px #1733260b}
+.card strong{display:block;font-size:16px;margin-bottom:6px}.muted{color:#60766a;font-size:13px}
+button{border:0;border-radius:9px;background:var(--green);color:white;padding:10px 13px;font-weight:700;cursor:pointer}
+button.secondary{background:#e4f3e9;color:var(--dark)}
+input,select,textarea{width:100%;padding:11px;border:1px solid #cbded1;border-radius:9px;font:inherit;margin:5px 0 10px;background:white}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.item{display:flex;justify-content:space-between;align-items:center;gap:8px;border-bottom:1px solid #edf2ee;padding:10px 0}
+.item:last-child{border:0}.item button{padding:7px 10px}
+#cart{background:white;border:1px solid #dcece1;border-radius:14px;padding:15px}
+footer{text-align:center;padding:24px;color:#60766a;font-size:13px}
+@media(max-width:520px){.row{grid-template-columns:1fr}header h1{font-size:26px}}
+</style>
+</head>
+<body>
+<header>
+  <h1>🛒 OM STORE</h1>
+  <p>आपके गाँव की किराना दुकान • घर तक सामान पहुँचाने की सुविधा</p>
+  <p>इसराइन कला, कुमारखंड, मधेपुरा, बिहार</p>
+</header>
+<main class="wrap">
+  <div class="notice"><b>ऑर्डर कैसे करें?</b> सामान चुनें, अपना पता भरें और WhatsApp पर ऑर्डर भेजें। कीमत और डिलीवरी शुल्क दुकान से पुष्टि करके बताए जाएँगे।</div>
+  <h2>सामान की श्रेणियाँ</h2>
+  <div class="grid" id="categories"></div>
+  <h2>सामान जोड़ें</h2>
+  <div class="card">
+    <label for="product">सामान का नाम</label>
+    <input id="product" list="suggestions" placeholder="जैसे: चावल, आटा, चीनी, तेल">
+    <datalist id="suggestions">
+      <option>चावल</option><option>आटा</option><option>चीनी</option><option>सरसों तेल</option>
+      <option>रिफाइंड तेल</option><option>दाल</option><option>नमक</option><option>चायपत्ती</option>
+      <option>बिस्कुट</option><option>नूडल्स</option><option>साबुन</option><option>शैम्पू</option>
+      <option>डिटर्जेंट</option><option>मसाले</option><option>टूथपेस्ट</option><option>कोल्ड ड्रिंक</option>
+    </datalist>
+    <div class="row">
+      <div><label for="qty">मात्रा / पैकेट</label><input id="qty" placeholder="जैसे: 2 किलो"></div>
+      <div style="display:flex;align-items:end"><button style="width:100%" onclick="addItem()">कार्ट में जोड़ें</button></div>
+    </div>
+  </div>
+  <h2>आपका ऑर्डर</h2>
+  <section id="cart">
+    <div id="items" class="muted">अभी कोई सामान नहीं जोड़ा गया है।</div>
+    <p><b>कुल कीमत:</b> दुकान द्वारा पुष्टि की जाएगी।</p>
+    <button class="secondary" onclick="clearCart()">कार्ट खाली करें</button>
+  </section>
+  <h2>डिलीवरी की जानकारी</h2>
+  <div class="card">
+    <label>आपका नाम</label><input id="name" placeholder="पूरा नाम">
+    <div class="row">
+      <div><label>मोबाइल नंबर</label><input id="mobile" inputmode="numeric" placeholder="10 अंकों का नंबर"></div>
+      <div><label>गाँव</label>
+        <select id="village">
+          <option value="">गाँव चुनें</option>
+          <option>इसराइन कला</option><option>मघूआ</option><option>ललकुरिया</option>
+          <option>लक्ष्मीपुर</option><option>बैसाढ़</option><option>जोरावरगंज</option><option>खुरदा</option>
+          <option>अन्य</option>
+        </select>
+      </div>
+    </div>
+    <label>पूरा पता / पहचान</label><textarea id="address" rows="2" placeholder="टोला, वार्ड या घर की पहचान लिखें"></textarea>
+    <label>भुगतान का तरीका</label>
+    <select id="payment"><option>कैश ऑन डिलीवरी</option><option>UPI (दुकान से पुष्टि के बाद)</option></select>
+    <button style="width:100%;padding:13px" onclick="sendOrder()">WhatsApp पर ऑर्डर भेजें</button>
+  </div>
+  <div class="notice">डिलीवरी शुल्क ऑर्डर और गाँव के हिसाब से बताया जाएगा। यह शुरुआती वेबसाइट नमूना है; उत्पादों की सही कीमतें और उपलब्धता दुकान से पुष्टि करें।</div>
+</main>
+<footer>OM STORE • धन्यवाद! फिर आइए।</footer>
+<script>
+const cats=["अनाज और आटा","दाल और चावल","तेल और घी","चीनी और नमक","मसाले","बिस्कुट और नमकीन","चाय और पेय पदार्थ","साबुन और शैम्पू","सफाई का सामान","पूजा सामग्री","दैनिक जरूरत का सामान","अन्य किराना"];
+document.getElementById('categories').innerHTML=cats.map(c=>`<div class="card"><strong>${c}</strong><span class="muted">इस श्रेणी का सामान ऑर्डर करें</span></div>`).join('');
+let cart=[];
+function addItem(){let p=document.getElementById('product').value.trim(),q=document.getElementById('qty').value.trim();if(!p||!q){alert('सामान का नाम और मात्रा लिखें।');return;}cart.push({p,q});document.getElementById('product').value='';document.getElementById('qty').value='';render();}
+function render(){let el=document.getElementById('items');if(!cart.length){el.textContent='अभी कोई सामान नहीं जोड़ा गया है।';return;}el.innerHTML=cart.map((x,i)=>`<div class="item"><span>${i+1}. ${x.p} — ${x.q}</span><button onclick="removeItem(${i})">हटाएँ</button></div>`).join('');}
+function removeItem(i){cart.splice(i,1);render();}
+function clearCart(){cart=[];render();}
+function sendOrder(){
+ const name=document.getElementById('name').value.trim(),mobile=document.getElementById('mobile').value.trim(),village=document.getElementById('village').value,address=document.getElementById('address').value.trim(),payment=document.getElementById('payment').value;
+ if(!cart.length){alert('पहले कार्ट में सामान जोड़ें।');return;}
+ if(!name||!mobile||!village||!address){alert('कृपया नाम, मोबाइल, गाँव और पूरा पता भरें।');return;}
+ if(!/^[0-9]{10}$/.test(mobile)){alert('कृपया सही 10 अंकों का मोबाइल नंबर लिखें।');return;}
+ let lines=cart.map((x,i)=>`${i+1}. ${x.p} - ${x.q}`).join('\n');
+ let msg=`नमस्ते OM STORE,\nमुझे यह सामान ऑर्डर करना है:\n${lines}\n\nनाम: ${name}\nमोबाइल: ${mobile}\nगाँव: ${village}\nपता: ${address}\nभुगतान: ${payment}\nकृपया कुल कीमत और डिलीवरी शुल्क बता दें।`;
+ window.open('https://wa.me/919065074635?text='+encodeURIComponent(msg),'_blank');
+}
+</script>
+</body></html>
